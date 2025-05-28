@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const Todo = props => (
   <tr>
@@ -7,9 +7,15 @@ const Todo = props => (
     <td>{props.todo.description}</td>
     <td>{props.todo.completed ? 'Completed' : 'Pending'}</td>
     <td>
-      <Link to={"/edit/"+props.todo._id} className="btn btn-info">edit</Link> {/* Added Bootstrap classes */}
-      {' '}{/* Add a space between buttons */}
-      <button onClick={() => { props.deleteTodo(props.todo._id) }} className="btn btn-danger">delete</button> {/* Added Bootstrap classes */}
+      <Button variant="info" onClick={() => props.onEdit(props.todo)} className="me-2">edit</Button>
+      <Button 
+        variant={props.todo.completed ? "secondary" : "success"} 
+        onClick={() => props.onToggleComplete(props.todo)} 
+        className="me-2"
+      >
+        {props.todo.completed ? 'Mark Incomplete' : 'Mark Complete'}
+      </Button>
+      <Button variant="danger" onClick={() => props.deleteTodo(props.todo._id)}>delete</Button>
     </td>
   </tr>
 )
