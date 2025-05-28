@@ -3,13 +3,26 @@ import axios from 'axios';
 import Todo from './Todo';
 import { Button, Modal } from 'react-bootstrap';
 import CreateTodo from './CreateTodo';
+import EditTodoModal from './EditTodoModal';
 
 const TodosList = () => {
   const [todos, setTodos] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState(null);
 
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const handleCreateClose = () => setShowCreateModal(false);
+  const handleCreateShow = () => setShowCreateModal(true);
+  
+  const handleEditClose = () => {
+    setShowEditModal(false);
+    setSelectedTodo(null);
+  };
+  
+  const handleEditShow = (todo) => {
+    setSelectedTodo(todo);
+    setShowEditModal(true);
+  };
 
   const fetchTodos = () => {
     axios.get('http://localhost:5001/todos/')
@@ -23,6 +36,26 @@ const TodosList = () => {
 
   const handleTodoCreated = (newTodo) => {
     fetchTodos();
+  };
+
+  const handleTodoUpdated = (updatedTodo) => {
+    fetchTodos();
+  };
+
+  const handleToggleComplete = (todo) => {
+    const updatedTodo = {
+      ...todo,
+      completed: !todo.completed
+    };
+
+    axios.post('http://localhost:5001/todos/update/' + todo._id, updatedTodo)
+      .then(response => {
+        console.log(response.data);
+        fetchTodos();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -42,14 +75,20 @@ const TodosList = () => {
 
   const todosList = () => {
     return todos.map(currenttodo => {
-      return <Todo todo={currenttodo} deleteTodo={deleteTodo} key={currenttodo._id}/>;
+      return <Todo 
+        todo={currenttodo} 
+        deleteTodo={deleteTodo} 
+        onEdit={handleEditShow}
+        onToggleComplete={handleToggleComplete}
+        key={currenttodo._id}
+      />;
     })
   };
 
   return (
     <div>
       <h3>Logged Todos</h3>
-      <Button variant="primary" onClick={handleShow} className="mb-3">
+      <Button variant="primary" onClick={handleCreateShow} className="mb-3">
         Create New Todo
       </Button>
       <table>
@@ -66,20 +105,23 @@ const TodosList = () => {
         </tbody>
       </table>
 
-      <Modal show={showModal} onHide={handleClose}>
+      {/* Create Todo Modal */}
+      <Modal show={showCreateModal} onHide={handleCreateClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Todo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateTodo onClose={handleClose} onTodoCreated={handleTodoCreated} />
+          <CreateTodo onClose={handleCreateClose} onTodoCreated={handleTodoCreated} />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
 
+      {/* Edit Todo Modal */}
+      <EditTodoModal
+        show={showEditModal}
+        handleClose={handleEditClose}
+        todo={selectedTodo}
+        onTodoUpdated={handleTodoUpdated}
+      />
     </div>
   );
 };

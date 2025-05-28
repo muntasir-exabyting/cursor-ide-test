@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Form, Button } from 'react-bootstrap';
 
 const CreateTodo = ({ onClose, onTodoCreated }) => {
   const [title, setTitle] = useState('');
@@ -29,30 +30,30 @@ const CreateTodo = ({ onClose, onTodoCreated }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className="form-group">
-        <label>Title: </label>
-        <input 
+    <Form onSubmit={onSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
           type="text"
           required
-          className="form-control"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-      </div>
-      <div className="form-group">
-        <label>Description: </label>
-        <input 
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
           type="text"
-          className="form-control"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+      </Form.Group>
+      <div className="d-flex justify-content-end">
+        <Button variant="primary" type="submit">
+          Create Todo
+        </Button>
       </div>
-      <div className="form-group">
-        <input type="submit" value="Create Todo" className="btn btn-primary" />
-      </div>
-    </form>
+    </Form>
   );
 };
 

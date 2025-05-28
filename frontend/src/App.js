@@ -4,7 +4,6 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import TodosList from "./components/TodosList";
-import EditTodo from "./components/EditTodo";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
         <br/>
         <Routes>
           <Route path="/" exact element={<TodosList />} />
-          <Route path="/edit/:id" element={<EditTodo />} />
         </Routes>
       </div>
     </Router>
