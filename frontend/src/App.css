@@ -1,38 +1,140 @@
+/* Base App styles */
 .App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* Header section */
+.App-header {
+  background-color: #6f42c1;
+  color: white;
+  padding: 40px 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Container for page content */
+.container {
+  margin: 40px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 900px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Table styles */
+table {
+  margin: 0 auto;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+table thead tr {
+  background-color: #f3f4f6;
+  color: #111827;
+  font-weight: bold;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 15px;
+}
+
+/* Status badge */
+.completed {
+  background-color: #22c55e;
   color: white;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  display: inline-block;
 }
 
-.App-link {
-  color: #61dafb;
+/* Buttons */
+.btn {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn:hover {
+  background-color: #4f46e5;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Labels */
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: #374151;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #6f42c1;
+  padding: 16px 24px;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: bold;
+  color: white !important;
+}
+
+.nav-link {
+  color: white !important;
+  margin-left: 16px;
+  font-weight: 500;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-link {
+    margin: 8px 0 0;
   }
 }
