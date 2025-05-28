@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:18
 
 WORKDIR /app
 
@@ -9,12 +9,6 @@ RUN npm install react-bootstrap
 
 COPY . .
 
-RUN npm run build
+EXPOSE 3000
 
-FROM nginx:alpine
-
-COPY --from=builder /app/build /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"] 
+CMD ["npm", "start"] 
