@@ -91,9 +91,10 @@ const TodosList = () => {
       <Button variant="primary" onClick={handleCreateShow} className="mb-3">
         Create New Todo
       </Button>
-      <table>
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
+            <th className="text-center">Complete</th>
             <th>Title</th>
             <th>Description</th>
             <th>Status</th>
