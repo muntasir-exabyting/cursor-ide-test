@@ -31,7 +31,7 @@ function App() {
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="navbar-item">
-                <Button variant="success" onClick={handleCreateShow} className="btn-sm">
+                <Button variant="outline-light" onClick={handleCreateShow} className="btn-sm">
                   Create New Todo
                 </Button>
               </li>
