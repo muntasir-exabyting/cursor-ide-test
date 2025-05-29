@@ -2,20 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Todo from './Todo';
 import { Button, Modal } from 'react-bootstrap';
-import CreateTodo from './CreateTodo';
 import EditTodoModal from './EditTodoModal';
 
-const TodosList = () => {
+const TodosList = ({ refreshTrigger }) => {
   const [todos, setTodos] = useState([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [todoToDelete, setTodoToDelete] = useState(null);
 
-  const handleCreateClose = () => setShowCreateModal(false);
-  const handleCreateShow = () => setShowCreateModal(true);
-  
   const handleEditClose = () => {
     setShowEditModal(false);
     setSelectedTodo(null);
@@ -46,10 +41,6 @@ const TodosList = () => {
       })
   };
 
-  const handleTodoCreated = (newTodo) => {
-    fetchTodos();
-  };
-
   const handleTodoUpdated = (updatedTodo) => {
     fetchTodos();
   };
@@ -73,6 +64,13 @@ const TodosList = () => {
   useEffect(() => {
     fetchTodos();
   }, []);
+
+  // Refresh todos when refreshTrigger changes (new todo created)
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      fetchTodos();
+    }
+  }, [refreshTrigger]);
 
   const deleteTodo = (id) => {
     axios.delete('http://localhost:5001/todos/' + id)
@@ -107,9 +105,6 @@ const TodosList = () => {
   return (
     <div>
       <h3>Logged Todos</h3>
-      <Button variant="primary" onClick={handleCreateShow} className="mb-3">
-        Create New Todo
-      </Button>
       <table className="table table-striped table-hover">
         <thead>
           <tr>
@@ -124,16 +119,6 @@ const TodosList = () => {
           { todosList() }
         </tbody>
       </table>
-
-      {/* Create Todo Modal */}
-      <Modal show={showCreateModal} onHide={handleCreateClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create New Todo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CreateTodo onClose={handleCreateClose} onTodoCreated={handleTodoCreated} />
-        </Modal.Body>
-      </Modal>
 
       {/* Edit Todo Modal */}
       <EditTodoModal
