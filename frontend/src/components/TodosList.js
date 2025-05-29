@@ -9,7 +9,9 @@ const TodosList = () => {
   const [todos, setTodos] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
+  const [todoToDelete, setTodoToDelete] = useState(null);
 
   const handleCreateClose = () => setShowCreateModal(false);
   const handleCreateShow = () => setShowCreateModal(true);
@@ -22,6 +24,16 @@ const TodosList = () => {
   const handleEditShow = (todo) => {
     setSelectedTodo(todo);
     setShowEditModal(true);
+  };
+
+  const handleDeleteClose = () => {
+    setShowDeleteModal(false);
+    setTodoToDelete(null);
+  };
+
+  const handleDeleteShow = (todo) => {
+    setTodoToDelete(todo);
+    setShowDeleteModal(true);
   };
 
   const fetchTodos = () => {
@@ -67,17 +79,24 @@ const TodosList = () => {
       .then(response => {
         console.log(response.data);
         fetchTodos();
+        handleDeleteClose();
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  const confirmDelete = () => {
+    if (todoToDelete) {
+      deleteTodo(todoToDelete._id);
+    }
+  };
+
   const todosList = () => {
     return todos.map(currenttodo => {
       return <Todo 
         todo={currenttodo} 
-        deleteTodo={deleteTodo} 
+        deleteTodo={() => handleDeleteShow(currenttodo)} 
         onEdit={handleEditShow}
         onToggleComplete={handleToggleComplete}
         key={currenttodo._id}
@@ -123,6 +142,30 @@ const TodosList = () => {
         todo={selectedTodo}
         onTodoUpdated={handleTodoUpdated}
       />
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleDeleteClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this todo?</p>
+          {todoToDelete && (
+            <div className="alert alert-info">
+              <strong>Title:</strong> {todoToDelete.title}<br />
+              <strong>Description:</strong> {todoToDelete.description || 'No description'}
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDeleteClose}>
+            No
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Yes, Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

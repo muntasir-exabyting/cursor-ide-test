@@ -16,7 +16,7 @@ const Todo = props => (
     <td>{props.todo.completed ? 'Completed' : 'Pending'}</td>
     <td>
       <Button variant="info" onClick={() => props.onEdit(props.todo)} className="me-2">edit</Button>
-      <Button variant="danger" onClick={() => props.deleteTodo(props.todo._id)}>delete</Button>
+      <Button variant="danger" onClick={props.deleteTodo}>delete</Button>
     </td>
   </tr>
 )
